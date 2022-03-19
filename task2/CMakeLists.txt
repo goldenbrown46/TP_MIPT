@@ -12,15 +12,16 @@ find_package(GTest REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${GTEST_INCLUDE_DIRS})
 
+add_custom_target(indexlib SOURCES ${CMAKE_CURRENT_BINARY_DIR}/A/index.h)
+
 add_subdirectory(B)
 
 add_executable(C ${CMAKE_CURRENT_SOURCE_DIR}/C/main.cpp)
-add_executable(runTest 
-                ${CMAKE_CURRENT_SOURCE_DIR}/C/main_test.cpp 
-                ${CMAKE_CURRENT_SOURCE_DIR}/C/main.cpp
-)
+add_dependencies(C indexlib)
+add_executable(CTest ${CMAKE_CURRENT_SOURCE_DIR}/C/main_test.cpp)
+add_dependencies(CTest indexlib)
+
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-
 target_link_libraries(C my_lib)
-target_link_libraries(runTest ${GTEST_LIBRARIES} pthread)
+target_link_libraries(CTest ${GTEST_LIBRARIES} my_lib pthread)
