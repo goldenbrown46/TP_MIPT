@@ -9,20 +9,18 @@ add_custom_command(
 )
 
 find_package(GTest REQUIRED)
-find_package(Threads REQUIRED)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${GTEST_INCLUDE_DIRS})
 
 add_subdirectory(B)
 
 add_executable(C ${CMAKE_CURRENT_SOURCE_DIR}/C/main.cpp)
-add_executable(CTest 
+add_executable(runTest 
                 ${CMAKE_CURRENT_SOURCE_DIR}/C/main_test.cpp 
-                ${CMAKE_CURRENT_SOURCE_DIR}/C/test.cpp
-                ${CMAKE_CURRENT_SOURCE_DIR}/C/test.h 
+                ${CMAKE_CURRENT_SOURCE_DIR}/C/main.cpp
 )
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 
 target_link_libraries(C my_lib)
-target_link_libraries(CTest ${GTEST_LIBRARIES} Threads::Threads my_lib)
+target_link_libraries(runTest ${GTEST_LIBRARIES} pthread)
