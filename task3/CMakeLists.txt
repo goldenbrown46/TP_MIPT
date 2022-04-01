@@ -13,6 +13,8 @@ add_subdirectory(src)
 add_executable(Main main.cpp)
 add_executable(MainLib main_lib.cpp)
 
+set_property(TARGET MainLib PROPERTY PUBLIC_HEADER "${SimpleLibrary_SOURCE_DIR}/include/buffer.h")
+
 target_link_libraries(MainLib buffer)
 
 install(TARGETS Main RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
